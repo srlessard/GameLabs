@@ -53,4 +53,4 @@ Push your work to your GitHub account and *send me a message (to
 mchow01) via Notifications in GitHub.* Notifications is under the
 radio waves icon to the right of your GitHub username (and to the
 right of the Account Settings and Log Out icons) at the top navigation
-bar.
+bar. **I will not accept emails!***
