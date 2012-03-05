@@ -2,6 +2,7 @@
 In this lab, you will:
 * Practice collision detection and response
 * Practice using Git and GitHub
+* Be exposed to reading and using other people's work
 * Hack Pong
 
 #Overview#
@@ -49,8 +50,8 @@ its own. But don't make the opponent impossibly hard!
 * (1 point) Push your work to your GitHub account.
 
 #Submission#
-Push your work to your GitHub account and *send me a message (to
-mchow01) via Notifications in GitHub.* Notifications is under the
+Push your work to your GitHub account and **send me a message (to
+mchow01) via Notifications in GitHub.** Notifications is under the
 radio waves icon to the right of your GitHub username (and to the
 right of the Account Settings and Log Out icons) at the top navigation
 bar. **I will not accept emails!***
