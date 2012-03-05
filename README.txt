@@ -55,3 +55,7 @@ mchow01) via Notifications in GitHub.** Notifications is under the
 radio waves icon to the right of your GitHub username (and to the
 right of the Account Settings and Log Out icons) at the top navigation
 bar. **I will not accept emails!***
+
+#Notes
+* You are encouraged to commit and push as many times as you want.
+* Please do not "wing" your commit messages, they should be readable. 
