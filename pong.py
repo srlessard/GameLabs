@@ -25,6 +25,17 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Pong")
 
+def load_sound(sound_name):
+    try:
+        sound = pygame.mixer.Sound(sound_name)
+    except pygame.error, message:
+        print "Cannot load sound: " + sound_name
+        raise SystemExit, message
+    return sound
+
+# Collision sound
+collideSound = load_sound('laser.wav')
+
 # This is a rect that contains the ball at the beginning it is set in the center of the screen
 ball_rect = pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), (BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT))
 
@@ -101,6 +112,7 @@ while True:
     # Test if the ball is hit by the paddle; if yes reverse speed and add a point
     if paddle1_rect.colliderect(ball_rect) or paddle2_rect.colliderect(ball_rect):
         ball_speed[0] = -ball_speed[0]
+        collideSound.play()
     
     # Clear screen
     screen.fill((255, 255, 255))
