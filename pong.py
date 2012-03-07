@@ -5,6 +5,7 @@
 """ This module features a pong game designed for two players """
 
 import pygame, sys
+from pygame.locals import *
 
 # Constants
 SCREEN_WIDTH = 800
@@ -20,7 +21,7 @@ DIV_START_X = SCREEN_WIDTH/2 - DIV_WIDTH/2
 DIV_START_Y = 0
 BALL_SPEED = 10
 BALL_WIDTH_HEIGHT = 16
-POINTS_TO_WIN = 2
+POINTS_TO_WIN = 11
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -112,7 +113,29 @@ while True:
         p1Score += 1
 
     if p1Score > (POINTS_TO_WIN - 1) or p2Score > (POINTS_TO_WIN - 1) : # Winning conditions
-        break
+        cont = True
+        while cont: # Game over state
+            if p1Score > (POINTS_TO_WIN - 1):
+                winText = fontWin.render("P1 wins, enter to play again", True, (0, 255, 0))
+            else:
+                winText = fontWin.render("P2 wins, enter to play again", True, (255, 0, 0))
+    
+            screen.fill((0, 0, 0))
+            screen.blit(winText, (50, 50))
+
+            # Quit Button    
+            for event in pygame.event.get():
+                if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                    pygame.quit()
+                    sys.exit(0)
+                elif event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit() 
+                elif event.key == K_RETURN:
+                    cont = False
+                    p1Score = 0
+                    p2Score = 0
+            pygame.display.flip()
 
     # Test if the ball is hit by the paddle; if yes reverse speed and add a point
     if paddle1_rect.colliderect(ball_rect) or paddle2_rect.colliderect(ball_rect):
@@ -139,17 +162,3 @@ while True:
     pygame.display.flip()
     pygame.time.delay(20)
 
-while True: # Game over state
-    if p1Score > (POINTS_TO_WIN - 1):
-        winText = fontWin.render("Player 1 wins", True, (0, 0, 0))
-    else:
-        winText = fontWin.render("Player 2 wins", True, (0, 0, 0))
-    
-    screen.blit(winText, ((SCREEN_WIDTH / 2) - (fontWin.size(str(p1Score))[0] / 2), 20))
-
-    # Quit Button    
-    for event in pygame.event.get():
-        if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            pygame.quit()
-            sys.exit(0)
-    pygame.display.flip()
