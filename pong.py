@@ -9,11 +9,11 @@ import pygame, sys
 # Constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-PADDLE1_START_X = 10
-PADDLE2_START_X = SCREEN_WIDTH - 10
-PADDLE_START_Y = 20
 PADDLE_WIDTH = 10
 PADDLE_HEIGHT = 100
+PADDLE1_START_X = 10
+PADDLE2_START_X = SCREEN_WIDTH - 20
+PADDLE_START_Y = 20
 DIV_WIDTH = 5
 DIV_HEIGHT = SCREEN_HEIGHT
 DIV_START_X = SCREEN_WIDTH/2 - DIV_WIDTH/2
@@ -57,18 +57,30 @@ while True:
         # Control the paddle with the mouse
         elif event.type == pygame.MOUSEMOTION:
             paddle1_rect.centery = event.pos[1]
-            # correct paddle position if it's going out of window
+            # correct paddles' positions if they're going out of window
             if paddle1_rect.top < 0:
                 paddle1_rect.top = 0
             elif paddle1_rect.bottom >= SCREEN_HEIGHT:
                 paddle1_rect.bottom = SCREEN_HEIGHT
+            if paddle2_rect.top < 0:
+                paddle2_rect.top = 0
+            elif paddle2_rect.bottom >= SCREEN_HEIGHT:
+                paddle2_rect.bottom = SCREEN_HEIGHT
 
-    # This test if up or down keys are pressed; if yes, move the paddle
-    if pygame.key.get_pressed()[pygame.K_UP] and paddle1_rect.top > 0:
+    # P1 Controls
+    if pygame.key.get_pressed()[pygame.K_w] and paddle1_rect.top > 0:
         paddle1_rect.top -= BALL_SPEED
-    elif pygame.key.get_pressed()[pygame.K_DOWN] and paddle1_rect.bottom < SCREEN_HEIGHT:
+    elif pygame.key.get_pressed()[pygame.K_s] and paddle1_rect.bottom < SCREEN_HEIGHT:
         paddle1_rect.top += BALL_SPEED
-    elif pygame.key.get_pressed()[pygame.K_ESCAPE]:
+
+    # P2 Controls
+    if pygame.key.get_pressed()[pygame.K_UP] and paddle2_rect.top > 0:
+        paddle2_rect.top -= BALL_SPEED
+    elif pygame.key.get_pressed()[pygame.K_DOWN] and paddle2_rect.bottom < SCREEN_HEIGHT:
+        paddle2_rect.top += BALL_SPEED
+
+    # Quit Button    
+    if pygame.key.get_pressed()[pygame.K_ESCAPE]:
         sys.exit(0)
         pygame.quit()
         
@@ -87,7 +99,7 @@ while True:
         p1Score += 1
 
     # Test if the ball is hit by the paddle; if yes reverse speed and add a point
-    if paddle1_rect.colliderect(ball_rect):
+    if paddle1_rect.colliderect(ball_rect) or paddle2_rect.colliderect(ball_rect):
         ball_speed[0] = -ball_speed[0]
     
     # Clear screen
@@ -98,6 +110,7 @@ while True:
 
     # Render the ball, the paddle, and the score
     pygame.draw.rect(screen, (0, 0, 0), paddle1_rect) # P1 paddle
+    pygame.draw.rect(screen, (0, 0, 0), paddle2_rect) # P2 paddle
     pygame.draw.circle(screen, (0, 0, 0), ball_rect.center, ball_rect.width / 2) # The ball
 
     score_text1 = font.render("P1: "+str(p1Score), True, (0, 0, 0))
