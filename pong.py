@@ -9,10 +9,15 @@ import pygame, sys
 # Constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-PADDLE_START_X = 10
+PADDLE1_START_X = 10
+PADDLE2_START_X = SCREEN_WIDTH - 10
 PADDLE_START_Y = 20
 PADDLE_WIDTH = 10
 PADDLE_HEIGHT = 100
+DIV_WIDTH = 5
+DIV_HEIGHT = SCREEN_HEIGHT
+DIV_START_X = SCREEN_WIDTH/2 - DIV_WIDTH/2
+DIV_START_Y = 0
 BALL_SPEED = 10
 BALL_WIDTH_HEIGHT = 16
 
@@ -26,8 +31,14 @@ ball_rect = pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), (BALL_WIDTH_HEIGH
 # Speed of the ball (x, y)
 ball_speed = [BALL_SPEED, BALL_SPEED]
 
-# Your paddle vertically centered on the left side
-paddle_rect = pygame.Rect((PADDLE_START_X, PADDLE_START_Y), (PADDLE_WIDTH, PADDLE_HEIGHT))
+# P1 paddle vertically centered on the left side
+paddle1_rect = pygame.Rect((PADDLE1_START_X, PADDLE_START_Y), (PADDLE_WIDTH, PADDLE_HEIGHT))
+
+# P2 paddle vertically centered on the right side
+paddle2_rect = pygame.Rect((PADDLE2_START_X, PADDLE_START_Y), (PADDLE_WIDTH, PADDLE_HEIGHT))
+
+# Screen Divider
+div_rect = pygame.Rect((DIV_START_X, DIV_START_Y), (DIV_WIDTH, DIV_HEIGHT))
 
 # Scoring: 1 point if you hit the ball, -5 point if you miss the ball
 p1Score = 0 # Paddle on the left side of the screen
@@ -45,18 +56,18 @@ while True:
             pygame.quit()
         # Control the paddle with the mouse
         elif event.type == pygame.MOUSEMOTION:
-            paddle_rect.centery = event.pos[1]
+            paddle1_rect.centery = event.pos[1]
             # correct paddle position if it's going out of window
-            if paddle_rect.top < 0:
-                paddle_rect.top = 0
-            elif paddle_rect.bottom >= SCREEN_HEIGHT:
-                paddle_rect.bottom = SCREEN_HEIGHT
+            if paddle1_rect.top < 0:
+                paddle1_rect.top = 0
+            elif paddle1_rect.bottom >= SCREEN_HEIGHT:
+                paddle1_rect.bottom = SCREEN_HEIGHT
 
     # This test if up or down keys are pressed; if yes, move the paddle
-    if pygame.key.get_pressed()[pygame.K_UP] and paddle_rect.top > 0:
-        paddle_rect.top -= BALL_SPEED
-    elif pygame.key.get_pressed()[pygame.K_DOWN] and paddle_rect.bottom < SCREEN_HEIGHT:
-        paddle_rect.top += BALL_SPEED
+    if pygame.key.get_pressed()[pygame.K_UP] and paddle1_rect.top > 0:
+        paddle1_rect.top -= BALL_SPEED
+    elif pygame.key.get_pressed()[pygame.K_DOWN] and paddle1_rect.bottom < SCREEN_HEIGHT:
+        paddle1_rect.top += BALL_SPEED
     elif pygame.key.get_pressed()[pygame.K_ESCAPE]:
         sys.exit(0)
         pygame.quit()
@@ -76,21 +87,24 @@ while True:
         p1Score += 1
 
     # Test if the ball is hit by the paddle; if yes reverse speed and add a point
-    if paddle_rect.colliderect(ball_rect):
+    if paddle1_rect.colliderect(ball_rect):
         ball_speed[0] = -ball_speed[0]
     
     # Clear screen
     screen.fill((255, 255, 255))
 
+    # Draw the middle divide of the game screen
+    pygame.draw.rect(screen, (255, 0, 0), div_rect)
+
     # Render the ball, the paddle, and the score
-    pygame.draw.rect(screen, (0, 0, 0), paddle_rect) # Your paddle
+    pygame.draw.rect(screen, (0, 0, 0), paddle1_rect) # P1 paddle
     pygame.draw.circle(screen, (0, 0, 0), ball_rect.center, ball_rect.width / 2) # The ball
 
     score_text1 = font.render("P1: "+str(p1Score), True, (0, 0, 0))
     score_text2 = font.render("P2: "+str(p2Score), True, (0, 0, 0))
     screen.blit(score_text1, ((SCREEN_WIDTH / 4) - font.size(str(p1Score))[0] / 2, 5)) # The score for player 1
     screen.blit(score_text2, ((3 * (SCREEN_WIDTH / 4)) - font.size(str(p2Score))[0] / 2, 5)) # The score for player 2
-    
+
     # Update screen and wait 20 milliseconds
     pygame.display.flip()
     pygame.time.delay(20)
