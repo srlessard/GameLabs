@@ -1,4 +1,9 @@
-'''Steven Lessard'''
+# Steven Lessard
+# Pong module
+# Comp50GD - Lab4
+
+""" This module features a pong game designed for two players """
+
 import pygame, sys
 
 # Constants
@@ -80,10 +85,11 @@ while True:
     # Render the ball, the paddle, and the score
     pygame.draw.rect(screen, (0, 0, 0), paddle_rect) # Your paddle
     pygame.draw.circle(screen, (0, 0, 0), ball_rect.center, ball_rect.width / 2) # The ball
-    score_text1 = font.render(str(p1Score), True, (0, 0, 0))
-    score_text2 = font.render(str(p2Score), True, (0, 0, 0))
-    screen.blit(score_text1, ((SCREEN_WIDTH / 4) - font.size(str(p1Score))[0] / 2, 5)) # The score
-    screen.blit(score_text2, ((3 * (SCREEN_WIDTH / 4)) - font.size(str(p2Score))[0] / 2, 5)) # The score
+
+    score_text1 = font.render("P1: "+str(p1Score), True, (0, 0, 0))
+    score_text2 = font.render("P2: "+str(p2Score), True, (0, 0, 0))
+    screen.blit(score_text1, ((SCREEN_WIDTH / 4) - font.size(str(p1Score))[0] / 2, 5)) # The score for player 1
+    screen.blit(score_text2, ((3 * (SCREEN_WIDTH / 4)) - font.size(str(p2Score))[0] / 2, 5)) # The score for player 2
     
     # Update screen and wait 20 milliseconds
     pygame.display.flip()
