@@ -2,7 +2,8 @@
 # Pong module
 # Comp50GD - Lab4
 
-""" This module features a pong game designed for two players """
+""" This module features a pong game designed for two players,
+a human (player 1) and a computer (player 2) """
 
 import pygame, sys
 from pygame.locals import *
@@ -81,11 +82,11 @@ while True:
     elif pygame.key.get_pressed()[pygame.K_s] and paddle1_rect.bottom < SCREEN_HEIGHT:
         paddle1_rect.top += BALL_SPEED_Y
 
-    # P2 Controls
-    if pygame.key.get_pressed()[pygame.K_UP] and paddle2_rect.top > 0:
-        paddle2_rect.top -= BALL_SPEED_Y
-    elif pygame.key.get_pressed()[pygame.K_DOWN] and paddle2_rect.bottom < SCREEN_HEIGHT:
-        paddle2_rect.top += BALL_SPEED_Y
+    # CPU AI
+    if (ball_speed[1] < 0) and paddle2_rect.top > 0:
+        paddle2_rect.top -= (4 * BALL_SPEED_Y / 5)
+    elif (ball_speed[1] > 0) and paddle2_rect.bottom < SCREEN_HEIGHT:
+        paddle2_rect.top += (4 * BALL_SPEED_Y / 5)
 
     # Quit Button    
     if pygame.key.get_pressed()[pygame.K_ESCAPE]:
@@ -102,11 +103,13 @@ while True:
     if ball_rect.right >= SCREEN_WIDTH: # Player 2 scores
         p2Score += 1
         ball_rect = pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), (BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT))
-        ball_speed = [-BALL_SPEED_X, BALL_SPEED_Y]
+        ball_speed = [BALL_SPEED_X, BALL_SPEED_Y]
+        pygame.time.delay(1000)
     if ball_rect.left <= 0:             # Player 1 scores
         p1Score += 1
         ball_rect = pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), (BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT))
-        ball_speed = [BALL_SPEED_X, BALL_SPEED_Y]
+        ball_speed = [-BALL_SPEED_X, BALL_SPEED_Y]
+        pygame.time.delay(1000)
 
     if p1Score > (POINTS_TO_WIN - 1) or p2Score > (POINTS_TO_WIN - 1) : # Winning conditions
         cont = True
